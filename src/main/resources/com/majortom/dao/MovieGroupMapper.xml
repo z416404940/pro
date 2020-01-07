@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.majortom.dao.MovieGroupMapper">
+
+    <select id="queryMovieGroupInfoByMovieGroupId" resultType="com.majortom.entity.MovieGroupInfo">
+        select * from movie_group_info where m_info_id = ${m_g_id}
+    </select>
+    <select id="queryOwnerByMovieGroupId" resultType="com.majortom.entity.User">
+        select * from user where user_id =
+        (select user_id from identification where i_id =
+        (select i_id from user_movie_group where type=1 and m_id=#{m_g_id}))
+    </select>
+    <select id="queryAdministratorByMovieGroupId" resultType="com.majortom.entity.User">
+        select * from user where user_id in
+        (select user_id from identification where i_id in
+        (select i_id from user_movie_group where type=2 and m_id=#{m_g_id}))
+    </select>
+    <select id="queryActivityByMovieGroupId" resultType="com.majortom.entity.Activity">
+        select * from activity where m_id =#{m_g_id}
+    </select>
+    <select id="queryFansCountByMovieGroupId" resultType="java.lang.Integer">
+        select count(*) from following where type = 2 and bind_id =#{m_g_id}
+    </select>
+    <select id="queryFansLimitByMovieGroupId" resultType="com.majortom.entity.User">
+        select * from user where user_id in
+        (select user_id from identification  where i_id in
+        (select i_id from following where type = 2 and bind_id=#{arg0} order by time desc))
+        limit #{arg1},#{arg2}
+    </select>
+    <select id="queryMovieGroupBySearch" resultType="com.majortom.entity.MovieGroupInfo"
+            parameterType="java.lang.String">
+            select * from movie_group_info  where name like '%${searchText}%'
+    </select>
+
+</mapper>

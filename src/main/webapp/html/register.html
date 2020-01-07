@@ -1,0 +1,113 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>登录</title>
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <link href="../lib/layui/css/layui.css"rel="stylesheet"media="all"/>
+  <link href="../css/register.css"rel="stylesheet"type="text/css"/>
+</head>
+<body class="main">
+<script src="../lib/js/jquery-3.4.1.js"></script>
+<center>
+  <div class="center">
+    <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
+      <ul class="layui-tab-title">
+        <li id="loadLI"class="layui-this">登录</li>
+        <li id="registerLi">注册</li>
+      </ul>
+      <div class="layui-tab-content">
+        <div class="layui-tab-item layui-show">
+          <div style="margin-bottom: 10px;margin-top: 40px">
+            <span class="err"></span>
+          </div>
+          <div class="layui-form">
+            <form id="loadForm" class="layui-form"method="post"action="/state/enter">
+              <div class="layui-form-item">
+                <input id="tel1"type="text" name="loadName" required  placeholder="电话/邮箱" autocomplete="off" lay-verify="required|telOrE" class="layui-input"/>
+              </div>
+              <div class="layui-form-item">
+                <input type="password" name="loadPass" required placeholder="请输入密码" autocomplete="off" lay-verify="required|loadPass" class="layui-input">
+              </div>
+              <div class="layui-input-block"style="margin-left: 20%">
+                <button class="layui-btn" lay-submit lay-filter="formDemo">登录</button>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="layui-tab-item">
+          <div style="margin-bottom: 10px;margin-top: 40px">
+            <span id="err"></span>
+          </div>
+          <div class="layui-form">
+            <form id="registerForm" class="layui-form"method="post"action="/state/register">
+              <div class="layui-form-item">
+                <input id="tel2"type="text" name="registerName" required  placeholder="电话/邮箱" autocomplete="off" lay-verify="required|telOrE" class="layui-input"/>
+              </div>
+              <div class="layui-form-item">
+                <input type="password" name="registerPass" required placeholder="请输入密码" autocomplete="off" lay-verify="required|loadPass" class="layui-input">
+              </div>
+              <div class="layui-form-item">
+                <input type="password" name="registerPass2" required placeholder="请再次输入密码" autocomplete="off" lay-verify="confirmPass|required" class="layui-input">
+              </div>
+              <div class="layui-input-block"style="margin-left: 20%">
+                <button class="layui-btn" lay-submit lay-filter="formDemo" onclick="toRegister">立即注册</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</center>
+<script src="../js/register.js"></script>
+<script src="../lib/layui/layui.all.js"type="text/javascript"charset="utf-8"></script>
+<script>
+  //注意：选项卡 依赖 element 模块，否则无法进行功能性操作
+  layui.use('element', function(){
+    var element = layui.element;
+    //…
+  });
+  layui.use('form',function () {
+    form = layui.form;
+    form.verify({
+      username: function(value){ //value：表单的值、item：表单的DOM对象
+        if(!new RegExp("^[a-zA-Z0-9_\u4e00-\u9fa5\\s·]+$").test(value)){
+          return '用户名不能有特殊字符';
+        }
+      }
+      ,loadPass: [/^[\S]{6,12}$/,'密码必须6到12位，且不能出现空格']
+      ,confirmPass:function(value){
+        if($('input[name=registerPass]').val() !== value)
+          return '两次密码输入不一致！';
+      }
+      ,telOrE :function (value) {
+        console.log(value.match(/^1[3|4|6|5|7|8]\d{9}$/));
+        if(value.indexOf("@") == -1){
+          if(value.match(/^1[3|4|5|6|7|8]\d{9}$/) == null){
+            return '请输入正确的手机号'
+          }
+        }else {
+          if(value.match(/^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/) ==null)
+            return '请输入正确的邮箱'
+        }
+      }
+    })
+  });
+  // function toRegister() {
+  //   $.ajax({
+  //     url :"/state/register",
+  //     dataType :String,
+  //     data : $("#registerForm").serialize(),
+  //     type:"post",
+  //     success : function(data) {
+  //       console.log("成功")
+  //     }
+  //   })
+  // }
+</script>
+</body>
+</html>

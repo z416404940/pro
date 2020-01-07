@@ -1,0 +1,40 @@
+.black{
+    color: black;
+}
+.out{
+    box-shadow: 0 0 10px lightgray;
+}
+.boder{
+    border: 1px solid red;
+}
+.hidden .layui-nav-more {
+    display: none;
+}
+.layui-laypage .layui-laypage-curr .layui-laypage-em{
+    background-color: #c2c2c2;
+}
+.layui-nav .layui-nav-child dd.layui-this a, .layui-nav-child dd.layui-this{
+    background-color: #c2c2c2;
+}
+.center{
+    text-align: center;
+}
+.bottom{
+    bottom: 0;
+}
+.margin {
+    margin: 0;
+}
+.right{
+    text-align: right;
+}
+.left{
+    text-align: left;
+}
+hr{
+    height: 0;
+}
+.postSize{
+    width: 115px;
+    height: 161px;
+}

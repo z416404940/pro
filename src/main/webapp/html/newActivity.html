@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../lib/layui/css/layui.css"  media="all">
+    <link rel="stylesheet" href="../css/nav.css" type="text/css"/>
+</head>
+<body>
+<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+    <legend>新活动发布</legend>
+</fieldset>
+
+<form action="/activity/post" method="post" enctype="multipart/form-data">
+    <input type="hidden" name="m_id" value="">
+    <div class="layui-form-item">
+        <label class="layui-form-label">活动名</label>
+        <div class="layui-input-block">
+            <input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="请输入活动名" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-upload">
+        <input type="file" name="upload" class="layui-btn layui-btn-normal layui-col-xs-offset1" id="test8" encoding="multipart/form-data" multiple>上传活动海报</input>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">电影名</label>
+        <div class="layui-input-block">
+            <input type="text" name="movie_name" lay-verify="required" lay-reqtext="电影名不能为空" placeholder="请输入电影名" autocomplete="off" class="layui-input">
+        </div>
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">影片简介</label>
+            <div class="layui-input-block">
+                <textarea name="intro" placeholder="请输入内容" class="layui-textarea"></textarea>
+            </div>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">活动开始</label>
+            <div class="layui-input-inline">
+                <input type="text" name="strart_time" id="datetime1" lay-verify="datetime" placeholder="YYYY-MM-DD HH:MM:SS" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">活动结束</label>
+            <div class="layui-input-inline">
+                <input type="text" name="end_time" id="datetime2" lay-verify="datetime" placeholder="YYYY-MM-DD HH:MM:SS" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">报名开始</label>
+            <div class="layui-input-inline">
+                <input type="text" name="strart_apply_time" id="datetime3" lay-verify="datetime" placeholder="YYYY-MM-DD HH:MM:SS" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">报名结束</label>
+            <div class="layui-input-inline">
+                <input type="text" name="end_apply_time" id="datetime4" lay-verify="datetime" placeholder="YYYY-MM-DD HH:MM:SS" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">电影开始</label>
+            <div class="layui-input-inline">
+                <input type="text" name="movie_strart_time" id="datetime5" lay-verify="datetime" placeholder="YYYY-MM-DD HH:MM:SS" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">电影结束</label>
+            <div class="layui-input-inline">
+                <input type="text" name="move_end_time" id="datetime6" lay-verify="datetime" placeholder="YYYY-MM-DD HH:MM:SS" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">影片时长</label>
+            <div class="layui-input-inline">
+                <input type="text" name="date" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">活动城市</label>
+        <div class="layui-input-inline">
+            <select name="quiz1">
+                <option value="">请选择省</option>
+                <option value="浙江" selected="">浙江省</option>
+                <option value="你的工号">江西省</option>
+                <option value="你最喜欢的老师">福建省</option>
+            </select>
+        </div>
+        <div class="layui-input-inline">
+            <select name="quiz2">
+                <option value="">请选择市</option>
+                <option value="杭州">杭州</option>
+                <option value="宁波" disabled="">宁波</option>
+                <option value="温州">温州</option>
+                <option value="温州">台州</option>
+                <option value="温州">绍兴</option>
+            </select>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">影院</label>
+            <div class="layui-input-inline">
+                <input type="text" name="address" required lay-verify="required" placeholder="影院" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">活动类型</label>
+        <div class="layui-input-block">
+            <input type="checkbox" name="type[free]" title="免费" checked="">
+            <input type="checkbox" name="type[test]" title="试映">
+            <input type="checkbox" name="type[Remapping]" title="重映">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">发布范围</label>
+        <div class="layui-input-block">
+            <input type="checkbox" checked="" name="visible" lay-skin="switch" lay-text="所有人|仅粉丝">
+        </div>
+    </div>
+    <label class="layui-form-label" name="num">活动名额</label>
+    <div class="layui-input-inline">
+        <input type="text" name="username" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+    </div>
+    <div class="layui-form-item layui-form-text">
+        <label class="layui-form-label">活动详情</label>
+        <div class="layui-input-block">
+            <textarea class="layui-textarea layui-hide" name="content" lay-verify="content" id="LAY_demo_editor"></textarea>
+        </div>
+    </div>
+    <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+        <legend>主办方联系方式</legend>
+    </fieldset>
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">手机</label>
+            <div class="layui-input-inline">
+                <input type="tel" name="phone" lay-verify="required|phone" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <input type="submit" class="layui-btn" lay-submit="" lay-filter="demo1" id="yes" value="提交发布"/>
+            <button type="button" class="layui-btn layui-btn-normal" id="LAY-component-form-setval">测试</button>
+            <!--            <button type="button" class="layui-btn layui-btn-normal" id="LAY-component-form-getval">取值</button>-->
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+</form>
+<script src="../lib/js/jquery-3.4.1.js"></script>
+<script src="../lib/layui.js" charset="utf-8"></script>
+<script src="../js/newActivity.js" charset="utf-8"></script>
+<script>
+
+</script>
+</body>
+</html>

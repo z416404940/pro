@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.majortom.dao.ActivityMapper">
+
+    <select id="queryJoinUserByActivityId" resultType="com.majortom.entity.User">
+      select * from user where user_id=
+      (select user_id from identification where i_id in
+      (select i_id from participant where type=2 and a_id=#{a_id}))
+    </select>
+    <select id="queryApplyUserByActivityId" resultType="com.majortom.entity.User">
+        select * from user where user_id=
+       (select user_id from identification where i_id in
+       (select i_id from participant where type=1 and a_id=#{a_id}))
+    </select>
+    <select id="queryWaitingUserByActivityId" resultType="com.majortom.entity.User">
+        select * from user where user_id=
+        (select user_id from identification where i_id in
+        (select i_id from participant where type=3 and a_id=#{a_id}))
+    </select>
+    <select id="queryVideosByActivityId" resultType="com.majortom.entity.Videos">
+        select * from videos where v_id=
+        (select v_id from activity where a_id=#{a_id})
+    </select>
+    <select id="queryActivityBySearch" resultType="com.majortom.entity.Activity"
+            parameterType="java.lang.String">
+        select * from activity where title like '%${searchText}%' or city like '%${searchText}%'
+        or cinema_address like '%${searchText}%'
+        or v_id in (select v_id from videos where name like '%${searchText}%')
+    </select>
+</mapper>
