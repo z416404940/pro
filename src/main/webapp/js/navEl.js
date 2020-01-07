@@ -44,9 +44,9 @@ class NavEl{
         if (this.datas !== null) {
             console.log(this.datas)
             html += `<li class="layui-nav-item">
-                <a href="javascript:;"><img src="../img/timg.jif" class="layui-nav-img">${this.datas.user.nickName}</a>
+                <a href="javascript:;"><img src="..${this.datas.image.imgUrl}" class="layui-nav-img">${this.datas.user.nickName}</a>
                     <dl class="layui-nav-child left">
-                    <dd class="center"><img src="../img/timg.jif" class="layui-nav-img"></dd>
+                    <dd class="center"><img src="..${this.datas.image.imgUrl}" class="layui-nav-img"></dd>
                     <dd class="black center">
                     ${this.datas.user.nickName}
                     </dd>

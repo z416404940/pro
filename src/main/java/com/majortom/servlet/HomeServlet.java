@@ -57,14 +57,13 @@ public class HomeServlet extends HttpServlet {
     private void show(HttpServletRequest request,HttpServletResponse response) throws ServletException, IOException {
         Map<String,Object> map = new HashMap<>();
         int currentPage = 1;
-        int pageSize = 2;
+        int pageSize = 3;
         String strPage = request.getParameter("page");
         if (strPage!= null && strPage.matches(Constant.ENSURENUM)){
             currentPage = Integer.parseInt(strPage);
         }
-        int count = activityServer.count();
-        int pageCount = count%pageSize==0?count / pageSize : count / pageSize+1;
         List<Activity> activities = activityServer.queryPage((currentPage-1)*pageSize,pageSize);
+        System.out.println(activities);
         String[] paths = activityServer.queryImagePath(activities);
         List<MovieGroupInfo> movieGroupInfos = moveGroupServer.queryById(activities);
         map.put("activities",activities);
@@ -75,7 +74,6 @@ public class HomeServlet extends HttpServlet {
         String maper = gson.toJson(map);
         writer.write(maper);
         writer.flush();
-//        response.sendRedirect("/html/homePage.html");
     }
 
     /**
@@ -85,17 +83,17 @@ public class HomeServlet extends HttpServlet {
      * @throws IOException
      */
     private void seek(HttpServletRequest request,HttpServletResponse response) throws IOException {
+        Map<String,Object> mapJson = new HashMap<>();
         String info = request.getParameter("seek");
         List<User> users = userService.queryByNickName(info);
         List<MovieGroupInfo> moveGroups = moveGroupServer.queryByNameDim(info);
         List<Activity> activities = activityServer.queryByNameDim(info);
         Gson gson = new Gson();
         PrintWriter writer = response.getWriter();
-        String responseUser = gson.toJson(users);
-        String responseMoveGroup = gson.toJson(moveGroups);
-        String responseActivity = gson.toJson(activities);
-        String [] infoTo = {responseUser,responseMoveGroup,responseActivity};
-        String to = gson.toJson(infoTo);
+        mapJson.put("users",users);
+        mapJson.put("moveGroups",moveGroups);
+        mapJson.put("activities",activities);
+        String to = gson.toJson(mapJson);
         writer.write(to);
         writer.flush();
     }

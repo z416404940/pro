@@ -35,6 +35,6 @@ public interface MovieGroupMapper  extends BaseMapper<MovieGroup> {
 	/**
 	 * 获取 粉丝列表
 	 */
-	List<User> queryFansLimitByMovieGroupId(int m_g_id,int start,int limit);
+	List<User> queryFansLimitByMovieGroupId(int m_g_id, int start, int limit);
 	List<MovieGroupInfo> queryMovieGroupBySearch(String searchText);
 }

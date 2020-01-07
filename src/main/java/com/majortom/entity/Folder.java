@@ -13,7 +13,7 @@ import lombok.ToString;
 /**
  * @Description  
  * @Author  Hunter
- * @Date 2020-01-02 
+ * @Date 2020-01-05 
  */
 
 @Setter
@@ -23,21 +23,19 @@ import lombok.ToString;
 @Table ( name ="folder" )
 public class Folder  implements Serializable {
 
-	private static final long serialVersionUID =  5938223563985721290L;
-
-	public Folder(Long folderId, String name) {
-		this.folderId = folderId;
-		this.name = name;
-	}
-
-	public Folder() {
-	}
+	private static final long serialVersionUID =  4158770056606839890L;
 
 	@PrimaryKey
-	@Column(name = "folder_id" )
+   	@Column(name = "folder_id" )
 	private Long folderId;
 
    	@Column(name = "name" )
 	private String name;
+
+   	@Column(name = "i_id" )
+	private Long iId;
+
+   	@Column(name = "type" )
+	private Long type;
 
 }

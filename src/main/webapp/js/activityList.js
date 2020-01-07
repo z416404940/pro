@@ -8,7 +8,7 @@ class Activity {
             let html = `<hr>
                 <div class="layui-row" >
                 <div class="layui-col-xs12 out postSize">
-                <img src="${this.activityList.path[i]}" alt="">{海报}
+                <img src="${this.activityList.path[i]}" alt="" style="width: 100%;">
                 </div>
                 <div class="layui-col-xs10" style="height: 161px">
                 <div class="" style="font-size: 20px;height: 20%">
