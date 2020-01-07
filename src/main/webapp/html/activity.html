@@ -34,7 +34,7 @@
             </div>
             <div class="out" style="margin: 7px 0 0 0">
                 <button class="layui-btn layui-btn-warm radius" style="border-radius: 7px" href="">想去</button>
-                <button class="layui-btn layui-btn-danger radius" style="border-radius: 7px" href="">报名参加</button>
+                <button data-method="notice" class="layui-btn layui-btn-danger radius signUp" style="border-radius: 7px" href="">报名参加</button>
             </div>
         </div>
     </div>
@@ -152,9 +152,50 @@
         </ul>
     </div>
 </section>
-</body>
 <script src="../lib/jquery-3.4.1.js"></script>
 <script src="../lib/layui/layui.js" charset="utf-8"></script>
 <script type="module" src="../js/nav.js"></script>
 <script type="module" src="../js/navEl.js"></script>
+<script>
+    layui.use('layer', function(){ //独立版的layer无需执行这一句
+        var $ = layui.jquery, layer = layui.layer; //独立版的layer无需执行这一句
+        //触发事件
+        var active = {
+            notice: function(){
+                //示范一个公告层
+                layer.open({
+                    type: 1
+                    ,title: false //不显示标题栏
+                    ,closeBtn: false
+                    ,area: '300px;'
+                    ,shade: 0.8
+                    ,id: 'LAY_layuipro' //设定一个id，防止重复弹出
+                    ,btn: ['取消', '提交']
+                    ,btnAlign: 'c'
+                    ,moveType: 1 //拖拽模式，0或者1
+                    ,content: '<div style="padding: 50px; line-height: 22px; background-color: #393D49; color: #fff; font-weight: 300;">' +
+                        '确认报名' +
+                            '<form name="sign" action="">' +
+                        '<input type="text">' +
+                        '<br><br>' +
+                        '<br> <br>' +
+                        '</form>' +
+                        '<br>摸鱼的征途是星辰大海!</div>'
+                    ,success: function(layero){
+                        var btn = layero.find('.layui-layer-btn');
+                        btn.find('.layui-layer-btn0').attr({
+                            // document.sign.submit()
+                        });
+                    }
+                });
+            }
+        };
+
+        $('.signUp').on('click', function(){
+            var othis = $(this), method = othis.data('method');
+            active[method] ? active[method].call(this, othis) : '';
+        });
+    });
+</script>
+</body>
 </html>
