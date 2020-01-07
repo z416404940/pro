@@ -38,8 +38,12 @@ public interface BaseMapper<T> {
     T getById(Long id, Class clazz);
     @SelectProvider(method = "count",type=BaseSqlProvider.class)
     int count(Class clazz);
+    @SelectProvider(method = "getMaxId",type=BaseSqlProvider.class)
+    Long getMaxId(Class clazz);
     @SelectProvider(method = "getByLimit",type=BaseSqlProvider.class)
     List<T> getByLimit(Class clazz, int start, int limit);
     @SelectProvider(method = "getByColumn",type=BaseSqlProvider.class)
     List<T> getByColumn(Class clazz, String column, Object content);
+    @SelectProvider(method = "getColumn",type=BaseSqlProvider.class)
+    Object getColumn(Class clazz, Long id, String column);
 }
