@@ -9,7 +9,7 @@ class NavEl{
               <div class="layui-header">
                 <div class="layui-logo layui-bg-cyan" style="font-size: 40px;height: 60px">
                 <!--            <img>-->
-                logo
+                <img src="../images/lostHeadWalk.png" alt="" style="height: 40%">
                 <ul class="layui-nav layui-bg-cyan layui-layout-left">
                 <!--           <i class="layui-icon layui-icon-picture-fine"/>-->
                 <span>
