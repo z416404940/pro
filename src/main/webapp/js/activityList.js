@@ -12,7 +12,7 @@ class Activity {
                 </div>
                 <div class="layui-col-xs10" style="height: 161px">
                 <div class="" style="font-size: 20px;height: 20%">
-                <a href="javascript:;">
+                <a href="activity.html?aId=${this.activityList.activities[i].aId}" target="_blank">
                 &emsp;${this.activityList.activities[i].title}
         </a>
             </div>

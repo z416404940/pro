@@ -2,21 +2,13 @@ package com.majortom.dao;
 
 
 import com.majortom.base.BaseMapper;
-import com.majortom.entity.Identification;
-import com.majortom.entity.User;
 import com.majortom.entity.*;
-
 
 import java.util.List;
 
 public interface UserMapper extends BaseMapper<User> {
 
-    /**
-     * 新增user
-     * @param user
-     * @return
-     */
-    int insert(User user);
+
     /**
      * 查询
      * @return

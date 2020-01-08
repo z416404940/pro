@@ -69,3 +69,10 @@ $.ajax({
     console.log(datas)
   }
 })
+function Requset(strName) {
+  var strHref = window.location.href;
+  var intPos = strHref.indexOf("?");
+  var strRight = strHref.substr(intPos + 1);
+}
+
+console.log(Requset("key"))

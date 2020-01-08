@@ -1,0 +1,50 @@
+tbody>tr:nth-child(even){
+    background-image: linear-gradient(2deg,#FF0000,#FF000099,#FF0000);
+}
+thead{
+    background-image: linear-gradient(#DD0000,#EE0000);
+}
+.remove{
+    background-color: black;
+}
+.table{
+    width: 1000px;
+    margin: 0 auto;
+}
+.popup{
+    position: absolute;
+    top:0;
+    width: 100%;
+    height: 100vh;
+    background-color: #000000CC;
+    margin: 0 auto;
+}
+#formEl{
+    width: 600px;
+    height: 300px;
+    background-color: #FFFFFF;
+}
+.popup div{
+    margin: 10px;
+}
+.popup input{
+    /*float: right;*/
+    margin-right: 20px;
+}
+p{
+    text-align: center;
+    background-color: #00000011;
+    margin: 0;
+}
+p button{
+    float: right;
+}
+#submit{
+    margin: 20px;
+}
+body{
+    overflow: hidden;
+}
+.lableDiv{
+     background-color: #FF0000;
+}

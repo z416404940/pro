@@ -1,11 +1,8 @@
 package com.majortom.servlet;
 
-import com.majortom.entity.Activity;
-import com.majortom.entity.Images;
-import com.majortom.entity.Videos;
-import com.majortom.service.ActivityService;
-import com.majortom.service.ImagesService;
-import com.majortom.service.VideosService;
+import com.google.gson.Gson;
+import com.majortom.entity.*;
+import com.majortom.service.*;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileItemFactory;
 import org.apache.commons.fileupload.FileUploadException;
@@ -22,12 +19,20 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 @WebServlet("/activity/*")
 public class ActivityServlet extends HttpServlet {
     private ActivityService activityService= new ActivityService();
+    private UserService userService= new UserService();
+    private ParticipantService participantService = new ParticipantService();
+    private ImagesService imagesService = new ImagesService();
+    private MovieGroupService movieGroupService = new MovieGroupService();
+    private MovieGroupInfoService movieGroupInfoService = new MovieGroupInfoService();
+
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String path = req.getRequestURI();
@@ -47,18 +52,55 @@ public class ActivityServlet extends HttpServlet {
             }
         }else if("get".equals(op)){
             int id = Integer.parseInt(req.getParameter("a_id"));
-            resp.getWriter().write(jsonActivity(id));
+            Map<String,Object> map = new HashMap<>();
+            Activity activity = activityService.getById((long) id);
+            map.put("activity", activity);
+            int applyNum = activityService.queryApplyUserByActivityId(id).size();
+            map.put("applyNum", applyNum);
+            Videos videos = activityService.queryVideosByActivityId(id);
+            map.put("videos", videos);
+            Images image = imagesService.getById(videos.getCIId());
+            map.put("image", image);
+            MovieGroup movieGroup = movieGroupService.getById(activity.getMId());
+            MovieGroupInfo movieGroupInfo = movieGroupInfoService.getById(movieGroup.getMInfoId());
+            map.put("movieGroup", movieGroupInfo);
+            Gson gson = new Gson();
+            resp.getWriter().write(gson.toJson(map));
+        }else if("userList".equals(op)){
+            resp.getWriter().write(jsonActivityUsersList(Integer.parseInt(req.getParameter("a_id"))));
+        }else if("apply".equals(op)){
+            int userId = Integer.parseInt(req.getParameter("user_id"));
+            int aId = Integer.parseInt(req.getParameter("a_id"));
+            Participant participant = activityService.queryParticipantByUserIdAndAId(aId, userId);
+            participant.setType(2);
+            participantService.update(participant);
+        }else if("delete".equals(op)){
+            int userId = Integer.parseInt(req.getParameter("user_id"));
+            int aId = Integer.parseInt(req.getParameter("a_id"));
+            Participant participant = activityService.queryParticipantByUserIdAndAId(aId, userId);
+            participant.setType(1);
+            participantService.update(participant);
         }
     }
 
-    private String jsonActivity(int id) {
-        return null;
+
+    private String jsonActivityUsersList(int id) {
+        Map<String,List<User>> usersMap = new HashMap<>();
+        List<User> applyUsers = activityService.queryApplyUserByActivityId(id);
+        List<User> joinUsers = activityService.queryJoinUserByActivityId(id);
+        List<User> waitingUsers = activityService.queryWaitingUserByActivityId(id);
+        usersMap.put("apply", applyUsers);
+        usersMap.put("success", joinUsers);
+        usersMap.put("waiting", waitingUsers);
+        Gson gson = new Gson();
+        return gson.toJson(usersMap);
     }
 
-    private boolean insertActivity(HttpServletRequest req, HttpServletResponse resp, Activity activity,List<FileItem> items) {
+    private boolean insertActivity(HttpServletRequest req, HttpServletResponse resp, Activity activity, List<FileItem> items) {
         InputStream in = null;
         String movieName ="";
         String movieIntro="";
+        Map<String,Integer> objMap = new HashMap<>();
         boolean success = false;
         SimpleDateFormat dataFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
         try {
@@ -116,6 +158,10 @@ public class ActivityServlet extends HttpServlet {
                         default:
                             break;
                     }
+                    if(item.getFieldName().startsWith("question")){
+                        int type = Integer.parseInt(item.getFieldName().substring(item.getFieldName().lastIndexOf('_')+1));
+                        objMap.put(getItem(item),type);
+                    }
                 }else{
                     try {
                         in = item.getInputStream();
@@ -130,7 +176,7 @@ public class ActivityServlet extends HttpServlet {
         }
         success = activityService.add(activity);
         if(null!=in)
-            return success && insertImages(activity,in,movieName,movieIntro);
+            return success && insertImages(activity,in,movieName,movieIntro,objMap);
         else
             return false;
     }
@@ -151,10 +197,11 @@ public class ActivityServlet extends HttpServlet {
         }
         return buffer.toString();
     }
-    public boolean insertImages(Activity activity,InputStream in,String movieName,String movieIntro){
+    public boolean insertImages(Activity activity, InputStream in, String movieName, String movieIntro, Map<String,Integer> objMap){
         Images images = new Images();
         ImagesService imagesService = new ImagesService();
         VideosService videosService = new VideosService();
+        ObjectiveService objectiveService = new ObjectiveService();
         images.setBindId(activity.getAId());
         images.setType(3);
         boolean success =imagesService.add(images);
@@ -167,7 +214,34 @@ public class ActivityServlet extends HttpServlet {
         activity.setVId(video.getVId());
         success = success && activityService.update(activity);
 
-
+        Objective objective =new Objective();
+        int count = 1;
+        for(Map.Entry<String,Integer> entry : objMap.entrySet()){
+            String mapKey = entry.getKey();
+            Integer mapValue = entry.getValue();
+            switch (count++){
+                case 1:
+                    objective.setChoiceA(mapKey);
+                    objective.setTypeA((long)mapValue);
+                    break;
+                case 2:
+                    objective.setChoiceB(mapKey);
+                    objective.setTypeB((long)mapValue);
+                    break;
+                case 3:
+                    objective.setChoiceC(mapKey);
+                    objective.setTypeC((long)mapValue);
+                    break;
+                case 4:
+                    objective.setChoiceD(mapKey);
+                    objective.setTypeD((long)mapValue);
+                    break;
+                default:
+                    break;
+            }
+        }
+        objective.setAId(activity.getAId());
+        success = success && objectiveService.add(objective);
         try {
             File file = new File(this.getServletContext().getRealPath("/images/") + "/" + activity.getMId() + "/" + images.getCIId()+".jpg");
             if(!file.exists()){

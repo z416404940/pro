@@ -13,7 +13,7 @@ class Activity {
                 <div class="layui-col-xs10" style="height: 161px">
                 <div class="" style="font-size: 20px;height: 20%">
                 活动名
-                <a href="" style="color: #1E9FFF;text-decoration:none">
+                <a href="ActivityJoinUserList.html?aId=${this.activityList.activities[i].aId}" style="color: #1E9FFF;text-decoration:none">
                 &emsp;${this.activityList.activities[i].title}
                 </a>
                 </div>
