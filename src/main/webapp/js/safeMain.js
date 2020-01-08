@@ -25,7 +25,7 @@ class safeMain {
         <span style="color: red"class="telNum">
         <!-- 将“139****1258”替换成￥{user.tel}
     user.tel 如果为空，给一个"未绑定手机"-->
-          ${this.user.tel}
+          ${this.user.user.tel}
         </span>
       </div>
       <div style="width: 33%;float: left;text-align: center;margin-top: 40px">
@@ -94,7 +94,7 @@ class safeMain {
   change(){
     //<!-- 将“x”替换成￥{this.user.tel}-->
     //更改电话颜色、内容、标签
-    if(this.user.tel == null){
+    if(this.user.user.tel == null){
       $(".telNum").css("color","red");
       $(".telNum").text('未绑定手机号');
       $("#doTel2").text("绑定手机");
@@ -110,7 +110,7 @@ class safeMain {
       $("#num").text(this.num);
     }
     //更改邮箱颜色、内容、标签
-    if(this.user.email == null){
+    if(this.user.user.email == null){
       $(".ENum").css("color","red");
       $(".ENum").text('未绑定邮箱');
       $("#doE").text("绑定邮箱");
@@ -133,7 +133,7 @@ class safeMain {
     //   $(".PassNum").text('已绑定');
     // }
     //更改身份证号颜色、内容、标签
-    if(this.user.idNum == null){
+    if(this.user.user.idNum == null){
       $(".trueName").css("color","orange");
       $(".trueName").text('未实名认证');
       $("#trueSpan2").remove();

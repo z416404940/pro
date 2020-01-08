@@ -40,22 +40,26 @@ public class UserPageSettServlet extends HttpServlet {
     private ImagesService imagesService = new ImagesService();
     private IdentificationService service = new IdentificationService();
     private UserService userService = new UserService();
-    @SneakyThrows
+//    @SneakyThrows
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
       String path = req.getRequestURI();
-      String op = path.substring(path.lastIndexOf("/"+1));
-      if (Constant.OWNPAGE.equals(op)){
-          ownPage(req, resp);
-      }else if (Constant.APPLY.equals(op)){
-              apply(req, resp);
-      }else if (Constant.SAFETY.equals(op)){
-          safety(req, resp);
-      }else if (Constant.OWNINFO.equals(op)){
-            ownInfo(req, resp);
-      }else if (Constant.AUTONYM.equals(op)){
-            autonym(req, resp);
-      }
+      String op = path.substring(path.lastIndexOf("/")+1);
+        try {
+            if (Constant.OWNPAGE.equals(op)){
+                ownPage(req, resp);
+            }else if (Constant.APPLY.equals(op)){
+                    apply(req, resp);
+            }else if (Constant.SAFETY.equals(op)){
+                safety(req, resp);
+            }else if (Constant.OWNINFO.equals(op)){
+                  ownInfo(req, resp);
+            }else if (Constant.AUTONYM.equals(op)){
+                  autonym(req, resp);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
