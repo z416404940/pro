@@ -8,9 +8,9 @@ class viewMain {
   build() {
     let html = `
       <br/>
-  <div class="layui-col-xs10 layui-col-xs-offset1"style="background-image: url('../img/fengjing.jpg');height: 150px;background-color: #3F3F3F">
+  <div class="layui-col-xs10 layui-col-xs-offset1"style="background-image: url('../images/movieGroup/fengjing.jpg');height: 150px;background-color: #3F3F3F">
       <div class="layui-col-xs10"style="height: 70px;margin-top: 80px;margin-left: 15px">
-        <div class="layui-col-xs5 grid-demo-bg5" style="background: pink;width: 50px;height: 50px;border-radius: 30px;background-image: url('../img/3D2Y.jpg')">
+        <div class="layui-col-xs5 grid-demo-bg5" style="background: pink;width: 50px;height: 50px;border-radius: 30px;background-image: url('../images/movieGroup/3D2Y.jpg')">
         </div>
         <div class="layui-col-xs5 grid-demo-bg5"style="color: whitesmoke">
           <h1>

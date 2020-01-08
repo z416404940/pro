@@ -9,7 +9,10 @@ class NavEl{
               <div class="layui-header">
                 <div class="layui-logo layui-bg-cyan" style="font-size: 40px;height: 60px">
                 <!--            <img>-->
-                <img src="../images/lostHeadWalk.png" alt="" style="height: 40%">
+                &ensp;
+                <a href="homePage.html" style="line-height: 60px">
+                    <img src="../images/lostHeadWalk.png" alt="" style="height: 40%">
+                </a>
                 <ul class="layui-nav layui-bg-cyan layui-layout-left">
                 <!--           <i class="layui-icon layui-icon-picture-fine"/>-->
                 <span>
@@ -114,8 +117,8 @@ class NavEl{
         this.$div.append(html);
         if (this.user&&this.first) {
             $("#city").text(this.datas.user.address);
-            // location.reload();
-            console.log(1)
+            location.reload();
+            // console.log(1)
             this.first = false;
         }
     }
