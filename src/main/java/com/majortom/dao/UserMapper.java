@@ -56,5 +56,6 @@ public interface UserMapper extends BaseMapper<User> {
      * 通过nickName搜索用户
      */
     List<User> queryUserBySearch(String searchText);
-
+    MovieGroup queryMovieGroupByUserId(int userId);
+    UserMovieGroup queryUserMovieGroupTypeByUserId(int userId);
 }

@@ -85,7 +85,16 @@
         select * from blacklist  where type =2 and i_id =
         (select i_id from identification where user_id=#{userId})
     </select>
-    <select id="queryUserBySearch" resultType="com.majortom.entity.User" parameterType="java.lang.String">
+    <select id="queryUserBySearch" resultType="com.majortom.entity.User">
         select * from user  where nick_name like '%${searchText}%'
+    </select>
+    <select id="queryMovieGroupByUserId" resultType="com.majortom.entity.MovieGroup">
+        select * from movie_group  where m_g_id in
+        (select m_g_id from user_movie_group  where i_id in
+        (select i_id from identification  where user_id ='${userId}'))
+    </select>
+    <select id="queryUserMovieGroupTypeByUserId" resultType="com.majortom.entity.UserMovieGroup">
+        select * from user_movie_group  where i_id in
+        (select i_id from identification  where user_id ='${userId}')
     </select>
 </mapper>

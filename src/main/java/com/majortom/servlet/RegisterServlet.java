@@ -2,10 +2,12 @@ package com.majortom.servlet;
 
 
 import com.google.gson.Gson;
-import com.google.gson.JsonElement;
 import com.majortom.entity.Identification;
+import com.majortom.entity.Images;
+import com.majortom.entity.MovieGroup;
 import com.majortom.entity.User;
 import com.majortom.service.IdentificationService;
+import com.majortom.service.ImagesService;
 import com.majortom.service.UserService;
 import com.majortom.utils.Constant;
 import com.majortom.utils.MD5Utils;
@@ -18,6 +20,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.awt.*;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -37,6 +40,7 @@ import java.util.Map;
 public class RegisterServlet extends HttpServlet {
     private UserService userService = new UserService();
     private IdentificationService service = new IdentificationService();
+    private ImagesService imagesService = new ImagesService();
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String path = req.getRequestURI();
@@ -68,15 +72,22 @@ public class RegisterServlet extends HttpServlet {
         if (account == null){
             account = "";
         }
-        User user = userService.queryByEmailOrTel(account);
+        User user = userService.queryUserByEmailOrTel(account);
         if (user== null){
             response.sendRedirect("/html/register.html");
         }
-        if (user!=null && password.equals(user.getPassword())){
+        if (user!=null && md5password.equals(user.getPassword())){
             HttpSession session = request.getSession();
             session.setAttribute("current",user);
             session.setMaxInactiveInterval(3600);
-            String userJosn = new Gson().toJson(user);
+            Map<String,Object> mapJSon = new HashMap<>();
+            int id = Math.toIntExact(user.getUserId());
+            MovieGroup movieGroup = userService.queryMovieGroupByUserId(id);
+            int type = userService.queryMovieGroupTypeByUserId(Math.toIntExact(user.getUserId()));
+            mapJSon.put("user",user);
+            mapJSon.put("movieGroup",movieGroup);
+            mapJSon.put("type",type);
+            String userJosn = new Gson().toJson(mapJSon);
             writer.write(userJosn);
             response.sendRedirect("/html/homePage.html");
         }
@@ -89,23 +100,31 @@ public class RegisterServlet extends HttpServlet {
      * @throws IOException
      */
     private void log(HttpServletRequest request,HttpServletResponse response) throws IOException {
-        HttpSession session = request.getSession();
-        User user = (User) session.getAttribute("current");
         PrintWriter writer = response.getWriter();
-        Map<String,Object> info = new HashMap<>();
+        HttpSession session = request.getSession();
+        Gson gson = new Gson();
+        Map<String,Object> mapJson = new  HashMap<>();
+        Identification identification = null;
+        User user = (User) session.getAttribute("current");
         if (user == null){
             String userJosn = new Gson().toJson(user);
+            System.out.println(userJosn);
             writer.write(userJosn);
             writer.flush();
         }else {
-            info.put("user",user);
-            Identification identification = service.getByColumn("user_id",user.getUserId()).get(0);
-            info.put("identification",identification);
-            Gson gson = new Gson();
-            String maper = gson.toJson(info);
-            writer.write(maper);
+            identification = service.getByColumn("user_id",user.getUserId()).get(0);
+            Images images = imagesService.getById(identification.getCIId());
+
+            mapJson.put("user",user);
+            mapJson.put("identification",identification);
+            mapJson.put("image",images);
+            String userJosn = new Gson().toJson(mapJson);
+            System.out.println("log中的json:"+userJosn);
+            writer.write(userJosn);
             writer.flush();
         }
+
+
     }
 
     /**
@@ -116,7 +135,7 @@ public class RegisterServlet extends HttpServlet {
      */
     private void judgeUserName(HttpServletRequest request,HttpServletResponse response) throws IOException {
         String account = request.getParameter("registerName");
-        User user = userService.queryByEmailOrTel(account);
+        User user = userService.queryUserByEmailOrTel(account);
         PrintWriter writer = response.getWriter();
         if (user != null){
             writer.write("false");
@@ -137,7 +156,7 @@ public class RegisterServlet extends HttpServlet {
         String password = request.getParameter("registerPass");
 //        boolean nothing = "".equals(password);
         String md5password = MD5Utils.MD5Encode(password,"utf-8");
-        User user = userService.queryByEmailOrTel(account);
+        User user = userService.queryUserByEmailOrTel(account);
 
         int type = -1;
         if (user==null && account.contains(Constant.AT)){

@@ -21,22 +21,9 @@ public class BaseSqlProvider<T> {
         SQL sql = new SQL();
         Class clazz = bean.getClass();
         String tableName = clazz.getSimpleName();
-        String realTableName = Tool.humpToLine(tableName).replace("_","");
+        String realTableName = Tool.humpToLine(tableName).replaceFirst("_","");
         sql.INSERT_INTO(realTableName);
         List<Field> fields = getColumnFields(clazz);
-//        Options annotation = this.getClass().getMethods()[0].getAnnotation(Options.class);
-//        InvocationHandler handler = Proxy.getInvocationHandler(annotation);
-//        Field hField = null;
-//        try {
-//            hField = handler.getClass().getDeclaredField("memberValues");
-//            hField.setAccessible(true);
-//            Map memberValues = (Map) hField.get(handler);
-//            memberValues.put("keyProperty","\""+fields.get(1).getName()+"\"");
-//            memberValues.put("useGeneratedKeys",true);
-//        } catch (NoSuchFieldException | IllegalAccessException e) {
-//            e.printStackTrace();
-//        }
-//        System.out.println(annotation);
         for (Field field : fields) {
             field.setAccessible(true);
             String column = field.getName();
@@ -44,7 +31,6 @@ public class BaseSqlProvider<T> {
                 sql.VALUES(Tool.humpToLine(column), String.format("#{" + column + ",jdbcType=VARCHAR}"));
             }
         }
-
         return sql.toString();
     }
 
@@ -60,7 +46,7 @@ public class BaseSqlProvider<T> {
 
         String tableName = clazz.getSimpleName();
 
-        String realTableName = Tool.humpToLine(tableName).replace("_","");
+        String realTableName = Tool.humpToLine(tableName).replaceFirst("_","");
         sql.DELETE_FROM(realTableName);
 
         List<Field> primaryKeyField = getPrimarkKeyFields(clazz);
@@ -76,7 +62,7 @@ public class BaseSqlProvider<T> {
 
         String tableName = clazz.getSimpleName();
 
-        String realTableName = Tool.humpToLine(tableName).replace("_","");
+        String realTableName = Tool.humpToLine(tableName).replaceFirst("_","");
         sql.DELETE_FROM(realTableName);
 
         List<Field> primaryKeyField = getPrimarkKeyFields(clazz);
@@ -93,7 +79,7 @@ public class BaseSqlProvider<T> {
         SQL sql = new SQL();
         Class clazz = bean.getClass();
         String tableName = clazz.getSimpleName();
-        String realTableName = Tool.humpToLine(tableName).replace("_","");
+        String realTableName = Tool.humpToLine(tableName).replaceFirst("_","");
         sql.UPDATE(realTableName);
         List<Field> fields = getColumnFields(clazz);
         for (Field field : fields) {
@@ -111,14 +97,18 @@ public class BaseSqlProvider<T> {
         return sql.toString();
     }
     public String updateByColumn(Long id,Class clazz,String column,Object content) {
-        SQL sql = new SQL();
-        String tableName = clazz.getSimpleName();
-        String realTableName = Tool.humpToLine(tableName).replace("_","");
-        sql.UPDATE(realTableName);
-        sql.SET(Tool.humpToLine(column) + "=" + String.format("#{arg3,jdbcType=VARCHAR}"));
-        List<Field> primaryKeyField = getPrimarkKeyFields(clazz);
-        temp(sql, primaryKeyField,id);
-        return sql.toString();
+        if(havaColumn(column,clazz)){
+            SQL sql = new SQL();
+            String tableName = clazz.getSimpleName();
+            String realTableName = Tool.humpToLine(tableName).replaceFirst("_", "");
+            sql.UPDATE(realTableName);
+            sql.SET(Tool.humpToLine(column) + "=" + String.format("#{arg3,jdbcType=VARCHAR}"));
+            List<Field> primaryKeyField = getPrimarkKeyFields(clazz);
+            temp(sql, primaryKeyField, id);
+            return sql.toString();
+        }else {
+            return "";
+        }
     }
 
     /**
@@ -128,7 +118,7 @@ public class BaseSqlProvider<T> {
         SQL sql = new SQL();
         Class clazz = bean.getClass();
         String tableName = clazz.getSimpleName();
-        String realTableName = Tool.humpToLine(tableName).replace("_","");
+        String realTableName = Tool.humpToLine(tableName).replaceFirst("_","");
         sql.SELECT("*").FROM(realTableName);
         List<Field> primaryKeyField = getPrimarkKeyFields(clazz);
         temp(sql, primaryKeyField);
@@ -138,28 +128,28 @@ public class BaseSqlProvider<T> {
         SQL sql = new SQL();
         String tableName = clazz.getSimpleName();
         String realTableName = Tool.humpToLine(tableName).substring(1);
-//        String realTableName = Tool.humpToLine(tableName).replace("_","");
+//        String realTableName = Tool.humpToLine(tableName).replaceFirst("_","");
         sql.SELECT("*").FROM(realTableName);
         List<Field> primaryKeyField = getPrimarkKeyFields(clazz);
         temp(sql, primaryKeyField,id);
-//        System.out.println(sql);
         return sql.toString();
     }
     public String getByLimit (Class clazz,int start,int limit) {
         SQL sql = new SQL();
         String tableName = clazz.getSimpleName();
-        String realTableName = Tool.humpToLine(tableName).replace("_","");
+        String realTableName = Tool.humpToLine(tableName).replaceFirst("_","");
         sql.SELECT("*").FROM(realTableName);
         List<Field> primaryKeyField = getPrimarkKeyFields(clazz);
         sql.ORDER_BY(Tool.humpToLine(primaryKeyField.get(0).getName()));
-        sql.LIMIT(start);
-        String sqlQuery = sql.toString()+","+limit;
+        sql.OFFSET(start);
+        sql.LIMIT(limit);
+        String sqlQuery = sql.toString();
         return sqlQuery;
     }
     public String getByColumn(Class clazz,String column,Object content) {
         SQL sql = new SQL();
         String tableName = clazz.getSimpleName();
-        String realTableName = Tool.humpToLine(tableName).replace("_","");
+        String realTableName = Tool.humpToLine(tableName).replaceFirst("_","");
         sql.SELECT("*").FROM(realTableName);
         sql.WHERE(Tool.humpToLine(column) + "=" + String.format("#{arg2,jdbcType=VARCHAR}"));
         return sql.toString();
@@ -167,9 +157,34 @@ public class BaseSqlProvider<T> {
     public String count(Class clazz) {
         SQL sql = new SQL();
         String tableName = clazz.getSimpleName();
-        String realTableName = Tool.humpToLine(tableName).replace("_","");
+        String realTableName = Tool.humpToLine(tableName).replaceFirst("_","");
         sql.SELECT("count(*)").FROM(realTableName);
         return sql.toString();
+    }
+
+    public String getMaxId(Class clazz) {
+        SQL sql = new SQL();
+        String tableName = clazz.getSimpleName();
+        String realTableName = Tool.humpToLine(tableName).replaceFirst("_","");
+        List<Field> primaryKeyField = getPrimarkKeyFields(clazz);
+        sql.SELECT(Tool.humpToLine(primaryKeyField.get(0).getName())).FROM(realTableName);
+        sql.ORDER_BY(Tool.humpToLine(primaryKeyField.get(0).getName())+" DESC");
+        sql.LIMIT(0).LIMIT(1);
+        return sql.toString();
+    }
+    public String getColumn(Class clazz,long id,String column){
+        if(havaColumn(column, clazz)){
+            SQL sql = new SQL();
+            String tableName = clazz.getSimpleName();
+            String realTableName = Tool.humpToLine(tableName).replaceFirst("_", "");
+
+            sql.SELECT(Tool.humpToLine(column)).FROM(realTableName);
+            List<Field> primaryKeyField = getPrimarkKeyFields(clazz);
+            temp(sql, primaryKeyField,id);
+            return sql.toString();
+        }else {
+            return null;
+        }
     }
     /**
      * 工具方法
@@ -197,6 +212,17 @@ public class BaseSqlProvider<T> {
             sql.WHERE(" 1= 2");
             throw new RuntimeException("对象中未包含PrimaryKey属性");
         }
+    }
+    private boolean havaColumn(String column,Class clazz) {
+        List<Field> fields = getColumnFields(clazz);
+        if (!fields.isEmpty()) {
+            for (Field field : fields) {
+                if (field.getName().equals(column)||Tool.humpToLine(field.getName()).equals(column)) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
     private List<Field> getPrimarkKeyFields(Class clazz) {
         List<Field> primaryKeyField = new ArrayList<>();

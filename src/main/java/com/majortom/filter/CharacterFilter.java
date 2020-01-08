@@ -1,7 +1,9 @@
 package com.majortom.filter;
+import	java.net.URLDecoder;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
 /**
@@ -24,6 +26,13 @@ public class CharacterFilter implements Filter {
         response.setContentType("text/html");
         request.setCharacterEncoding("utf-8");
         response.setCharacterEncoding("utf-8");
+        String path = HttpServletRequest.class.cast(request).getRequestURI();
+        path = URLDecoder.decode(path,"UTF-8");
+        if(path.endsWith(".jpg") || path.endsWith(".BMP") || path.endsWith(".JPEG") || path.endsWith(".PNG") || path.endsWith(".GIF")){
+
+        }
+//        System.out.println(path);
+
         chain.doFilter(request,response);
     }
 

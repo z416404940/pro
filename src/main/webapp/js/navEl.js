@@ -9,7 +9,7 @@ class NavEl{
               <div class="layui-header">
                 <div class="layui-logo layui-bg-cyan" style="font-size: 40px;height: 60px">
                 <!--            <img>-->
-                logo
+                <img src="../images/lostHeadWalk.png" alt="" style="height: 40%">
                 <ul class="layui-nav layui-bg-cyan layui-layout-left">
                 <!--           <i class="layui-icon layui-icon-picture-fine"/>-->
                 <span>
@@ -44,9 +44,9 @@ class NavEl{
         if (this.datas !== null) {
             console.log(this.datas)
             html += `<li class="layui-nav-item">
-                <a href="javascript:;"><img src="../img/timg.jif" class="layui-nav-img">${this.datas.user.nickName}</a>
+                <a href="javascript:;"><img src="..${this.datas.image.imgUrl}" class="layui-nav-img">${this.datas.user.nickName}</a>
                     <dl class="layui-nav-child left">
-                    <dd class="center"><img src="../img/timg.jif" class="layui-nav-img"></dd>
+                    <dd class="center"><img src="..${this.datas.image.imgUrl}" class="layui-nav-img"></dd>
                     <dd class="black center">
                     ${this.datas.user.nickName}
                     </dd>
