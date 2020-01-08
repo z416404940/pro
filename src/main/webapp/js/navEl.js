@@ -40,9 +40,9 @@ class NavEl{
                 <ul class="layui-nav layui-layout-right layui-bg-cyan">
                 <spen class="layui-form layui-show-lg-inline layui-hide-xs">
                 <div class="layui-input-inline">
-                <input type="text" name="searchKey" lay-verify="required" placeholder="人才辈出阿卡姆" autocomplete="off" class="layui-input">
+                <input type="text" name="searchKey" lay-verify="required" placeholder="人才辈出阿卡姆" autocomplete="off" class="layui-input" id="searchText">
                 </div>
-                <button type="submit" class="layui-btn layui-btn-primary" id="searchBtn"><i class="layui-icon layui-icon-search"></i></button>
+                <button type="button" class="layui-btn layui-btn-primary" id="searchBtn"><i class="layui-icon layui-icon-search"></i></button>
                 </spen>`
         if (this.datas !== null) {
             console.log(this.datas)
@@ -115,6 +115,9 @@ class NavEl{
         }
         html += `</ul></div>`;
         this.$div.append(html);
+        $("#searchBtn").click(function () {
+            window.open("/html/search.html?key="+$("#searchText").val());
+        });
         if (this.user&&this.first) {
             $("#city").text(this.datas.user.address);
             location.reload();
@@ -139,8 +142,4 @@ layui.define(['element','layer'], function(exports){
         //console.log(elem)
         layer.msg(elem.text());
     });
-    exports('nav',{}); //注意，这里是模块输出的核心，模块名必须和use时的模块名一致
-});
-$("#searchBtn").click(function () {
-    window.open("/seach.html");
 });

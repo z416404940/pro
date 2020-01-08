@@ -60,3 +60,12 @@ class search {
 }
 let $div = $(".centerBox");
 new search($div).build();
+$.ajax({
+  url: "/home/seek"
+  ,data: ""
+  ,method: "post"
+  ,datatype: "json"
+  ,success:function (datas) {
+    console.log(datas)
+  }
+})
