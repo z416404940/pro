@@ -119,7 +119,6 @@ public class RegisterServlet extends HttpServlet {
             mapJson.put("identification",identification);
             mapJson.put("image",images);
             String userJosn = new Gson().toJson(mapJson);
-            System.out.println("log中的json:"+userJosn);
             writer.write(userJosn);
             writer.flush();
         }
