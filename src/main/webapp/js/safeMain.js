@@ -8,11 +8,11 @@ class safeMain {
   build() {
     let html = `
       <div class="picture"style="width: 70%;height: 200px;margin-left: 30%;margin-top: 50px">
-      <img src="../img/teamer.png" alt="美国队长"style="float: left;width: 18%">
-      <div style="background-image: url('../img/dunpai.png');min-width: 200px;min-height: 200px;float: left;background-size: cover">
+      <img src="../images/movieGroup/teamer.png" alt="美国队长"style="float: left;width: 18%">
+      <div style="background-image: url('../images/movieGroup/dunpai.png');min-width: 200px;min-height: 200px;float: left;background-size: cover">
         <P style="font-size: 500%;margin-left: 32%;margin-top: 27%"id="num"></P>
       </div>
-      <img src="../img/eye.png" alt="鹰眼"style="float: left;width: 18%">
+      <img src="../images/movieGroup/eye.png" alt="鹰眼"style="float: left;width: 18%">
     </div>
   <div style="width:60%;height: 400px;margin: 40px auto">
     <div style="width:100%;height: 100px;border-top: solid 1px lightgray">
@@ -150,7 +150,7 @@ class safeMain {
 }
 let $div = $(".centerBox");
 //传入的servlet
-$.getJSON("/text",function (user) {
+$.getJSON("/sett/safety",function (user) {
   var main = new safeMain($div,user);
   main.build();
   main.change();

@@ -9,7 +9,7 @@ class personMain {
   build() {
     let html = `
       <div class="head"style="width: 90%;height: 82px;margin-top: 30px;margin-left: 20px">
-          <div style="float:left;border-radius: 40px;width: 80px;height: 80px;border: solid 1px black;background-image: url('../img/3D2Y.jpg')">
+          <div style="float:left;border-radius: 40px;width: 80px;height: 80px;border: solid 1px black;background-image: url('../images/movieGroup/3D2Y.jpg')">
           </div>
           <div style="float: left;width: 40%;margin-left: 20px">
           <div>
@@ -38,7 +38,7 @@ class personMain {
           <h2><strong>每日任务</strong></h2>
       <div style="width: 100%">
           <div style="width: 30%;height:180px;float: left">
-          <div style="float:left;width: 120px;height: 120px;margin-left: 35%;margin-top:5%;margin-right:30%;background-image: url('../img/yuan.png')">
+          <div style="float:left;width: 120px;height: 120px;margin-left: 35%;margin-top:5%;margin-right:30%;background-image: url('../images/movieGroup/yuan.png')">
           <div style="margin-left: 40%;margin-top: 30%">
           <h2><strong>10</strong></h2>
       <strong>EXP</strong>
@@ -49,7 +49,7 @@ class personMain {
           </center>
           </div>
           <div style="width: 30%;height:180px;float: left">
-          <div style="float:left;width: 120px;height: 120px;margin-left: 35%;margin-top:5%;margin-right:30%;background-image: url('../img/yuan.png')">
+          <div style="float:left;width: 120px;height: 120px;margin-left: 35%;margin-top:5%;margin-right:30%;background-image: url('../images/movieGroup/yuan.png')">
           <div style="margin-left: 40%;margin-top: 30%">
           <h2><strong>50</strong></h2>
       <strong>EXP</strong>
@@ -60,7 +60,7 @@ class personMain {
           </center>
           </div>
           <div style="width: 30%;height:180px;float: left">
-          <div style="float:left;width: 120px;height: 120px;margin-left: 35%;margin-top:5%;margin-right:30%;background-image: url('../img/yuan.png')">
+          <div style="float:left;width: 120px;height: 120px;margin-left: 35%;margin-top:5%;margin-right:30%;background-image: url('../images/movieGroup/yuan.png')">
           <div style="margin-left: 40%;margin-top: 30%">
           <h2><strong>20</strong></h2>
       <strong>EXP</strong>

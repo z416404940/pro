@@ -69,7 +69,7 @@ class bindMail {
           <div class="layui-tab-item"style="margin-top: 30px">
           <center>
           <div class="layui-form">
-          <img src="../img/luoji.png">
+          <img src="../images/movieGroup/luoji.png">
           </div>
           <div style="margin-bottom: 20px;margin-top: 10px">
           <h3 style="color: green">恭喜您，邮箱绑定成功！！</h3>

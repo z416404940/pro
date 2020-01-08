@@ -16,7 +16,7 @@ class Activity {
                 &emsp;${this.activityList.activities[i].title}
         </a>
             </div>
-            <div class="center" style="height: 70%">${this.activityList.activities[i].content}</div>
+            <div class="center" style="height: 70%;padding-left: 10px;text-align: left">&emsp;&emsp;${this.activityList.activities[i].content}</div>
                 <div class="right" style="height: 10%">
                 <a href=""><span>${this.activityList.moveInfo[i].name}</span></a>
             <span>${this.activityList.activities[i].strartTime}</span>
