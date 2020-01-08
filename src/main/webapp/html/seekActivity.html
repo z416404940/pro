@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="../lib/layui/css/layui.css"  media="all">
+    <link rel="stylesheet" href="../css/nav.css" type="text/css"/>
+</head>
+<body>
+<div id="simList" style="padding-top: 80px"></div>
+<footer class="layui-col-md-offset2 layui-col-xs-offset0 layui-col-xs8" style="min-width: 1000px">
+    <div id="pageDiv"></div>
+</footer>
+<script src="../lib/js/jquery-3.4.1.js"></script>
+<script type="module" src="../js/navEl.js"></script>
+<script src="../lib/layui/layui.js" charset="utf-8"></script>
+<script src="../js/chtyChoose.js"></script>
+<script type="module">
+    import {Activity} from "../js/simActivity.js";
+    layui.define(['element', 'carousel','laypage','laydate','layer','upload','form'], function(exports) {
+        var laypage = layui.laypage
+            , layer = layui.layer;
+        laypage.render({
+            elem: 'pageDiv'
+            , count: 30
+            , prev: '<em>&lt;</em>'
+            , next: '<em>&gt;</em>'
+            ,limit: 3
+            , layout: ['prev', 'page', 'next', 'skip', 'count']
+            , jump: function (obj,first) {
+                $.post("/home/show", "page=" + obj.curr, function (data) {
+                    let $div = $("#simList");
+                    $div.empty();
+                    new Activity($div, data).build();
+                    return;
+                },"json");
+            }
+        });
+    });
+    window.scrollTo(0,0);
+    layui.config({
+        base: '../js/'
+    }).use('homePage');
+</script>
+</body>
+</html>

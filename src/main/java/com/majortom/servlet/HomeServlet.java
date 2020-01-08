@@ -63,7 +63,6 @@ public class HomeServlet extends HttpServlet {
             currentPage = Integer.parseInt(strPage);
         }
         List<Activity> activities = activityServer.queryPage((currentPage-1)*pageSize,pageSize);
-        System.out.println(activities);
         String[] paths = activityServer.queryImagePath(activities);
         List<MovieGroupInfo> movieGroupInfos = moveGroupServer.queryById(activities);
         map.put("activities",activities);

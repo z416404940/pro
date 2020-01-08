@@ -2,12 +2,11 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>观影团</title>
+    <title>Touch Fish</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <link rel="stylesheet" href="../lib/layui/css/layui.css"  media="all">
-    <link rel="shortcut icon" href="../img/bitbug.ico" type="image/x-icon" />
     <link rel="stylesheet" href="../css/nav.css" type="text/css"/>
     <script type="module" src="../js/navEl.js"></script>
 </head>
@@ -97,7 +96,6 @@
 <script src="../js/chtyChoose.js"></script>
 <script type="module">
     import {Activity} from "../js/activityList.js";
-    console.log(12)
     layui.define(['element', 'carousel','laypage','laydate','layer','upload','form'], function(exports) {
         var laypage = layui.laypage
             , layer = layui.layer;
@@ -106,18 +104,16 @@
             , count: 30
             , prev: '<em>&lt;</em>'
             , next: '<em>&gt;</em>'
+            ,limit: 3
             , layout: ['prev', 'page', 'next', 'skip', 'count']
             , jump: function (obj,first) {
-                if(!first){
-                    // first = false;
                     $.post("/home/show", "page=" + obj.curr, function (data) {
                         let $div = $("#activity");
+                        $div.empty();
                         new Activity($div, data).build();
-                        $(".layui-laypage-btn").click()
-                        console.log(1)
+                        console.log(obj.curr);
+                        return;
                     },"json");
-                }
-                console.log(obj);
             }
         });
     });

@@ -11,7 +11,7 @@ class Menu{
         <a href="javascript:;">活动管理</a>
         <dl class="layui-nav-child">
             <dd><a href="newActivity.html">发布新活动</a></dd>
-            <dd><a href="javascript:;">进行中活动管理</a></dd>
+            <dd><a href="seekActivity.html">进行中活动管理</a></dd>
             <dd><a href="javascript:;">历史活动回顾</a></dd>
         </dl>
     </li>
