@@ -100,16 +100,16 @@
             , next: '<em>&gt;</em>'
             , layout: ['prev', 'page', 'next', 'skip', 'count']
             , jump: function (obj,first) {
-                if(first){
+                if(!first){
+                    // first = false;
                     $.post("/home/show", "page=" + obj.curr, function (data) {
                         let $div = $("#activity");
                         new Activity($div, data).build();
                         $(".layui-laypage-btn").click()
                         console.log(1)
                     },"json");
-                    first = false;
                 }
-                console.log(obj)
+                console.log(obj);
             }
         });
     });
